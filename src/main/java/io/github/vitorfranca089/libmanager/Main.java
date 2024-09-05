@@ -1,9 +1,11 @@
 package io.github.vitorfranca089.libmanager;
 
+import io.github.vitorfranca089.libmanager.config.DatabaseConfig;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        DatabaseConfig.migrateDatabase();
     }
 
 }

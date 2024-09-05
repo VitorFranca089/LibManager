@@ -1,0 +1,8 @@
+CREATE TABLE books (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(150) NOT NULL,
+    author VARCHAR(150) NOT NULL,
+    year_pub INT NOT NULL,
+    genre VARCHAR(100),
+    is_available BOOLEAN NOT NULL
+);
