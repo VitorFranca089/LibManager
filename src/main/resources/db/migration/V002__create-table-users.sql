@@ -5,5 +5,5 @@ CREATE TABLE users(
     password VARCHAR(150) NOT NULL,
     address VARCHAR(200) NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    ROLE ENUM('common', 'librarian') DEFAULT 'common' NOT NULL
+    ROLE ENUM('COMMON', 'LIBRARIAN') DEFAULT 'COMMON' NOT NULL
 )
