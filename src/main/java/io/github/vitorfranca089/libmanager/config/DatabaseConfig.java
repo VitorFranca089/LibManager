@@ -16,12 +16,11 @@ public class DatabaseConfig {
 
     public static Connection getConnection(){
         try {
-            if(conn == null) conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            else return conn;
+            if(conn == null || conn.isClosed()) conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return conn;
     }
 
     public static void migrateDatabase() {
