@@ -5,17 +5,17 @@ public class Book {
     private int id;
     private String title;
     private String author;
-    private int year_pub;
+    private int yearPub;
     private String genre;
     private boolean isAvailable;
 
     public Book() {
     }
 
-    public Book(String title, String author, int year_pub, String genre, boolean isAvailable) {
+    public Book(String title, String author, int yearPub, String genre, boolean isAvailable) {
         this.title = title;
         this.author = author;
-        this.year_pub = year_pub;
+        this.yearPub = yearPub;
         this.genre = genre;
         this.isAvailable = isAvailable;
     }
@@ -44,12 +44,12 @@ public class Book {
         this.author = author;
     }
 
-    public int getYear_pub() {
-        return year_pub;
+    public int getYearPub() {
+        return yearPub;
     }
 
-    public void setYear_pub(int year_pub) {
-        this.year_pub = year_pub;
+    public void setYearPub(int yearPub) {
+        this.yearPub = yearPub;
     }
 
     public String getGenre() {

@@ -8,9 +8,9 @@ public class Main {
     public static void main(String[] args) {
 
         DatabaseConfig.migrateDatabase();
-        MainController authController = new MainController();
+        MainController mainController = new MainController();
 
-        authController.startMenu();
+        mainController.startMenu();
 
         System.out.println("Fechando...");
 

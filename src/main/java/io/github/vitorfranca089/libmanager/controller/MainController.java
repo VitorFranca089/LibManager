@@ -7,6 +7,7 @@ import io.github.vitorfranca089.libmanager.util.InputUtils;
 public class MainController {
 
     private final UserController userController = new UserController();
+    private final BookController bookController = new BookController();
 
     public void startMenu(){
         int op;
@@ -15,7 +16,7 @@ public class MainController {
             System.out.println("1 - Efetuar login.");
             System.out.println("2 - Efetuar cadastro.");
             System.out.println("0 - Sair.");
-            op = InputUtils.getIntOptions();
+            op = InputUtils.getInt();
             System.out.println();
             switch (op){
                 case 1 -> {
@@ -42,8 +43,12 @@ public class MainController {
             System.out.println("3 - Empréstimos.") ;
             System.out.println("4 - Perfil.");
             System.out.println("0 - Logout.");
-            op = InputUtils.getIntOptions();
+            op = InputUtils.getInt();
+            System.out.println();
             // TODO: add librarian features
+            switch(op){
+                case 1 -> bookController.bookMenu();
+            }
             System.out.println();
         }while(op != 0);
     }
@@ -55,7 +60,7 @@ public class MainController {
             System.out.println("1 - Empréstimos.") ;
             System.out.println("2 - Perfil.");
             System.out.println("0 - Logout.");
-            op = InputUtils.getIntOptions();
+            op = InputUtils.getInt();
             // TODO: add commonUser features
             System.out.println();
         }while(op != 0);
