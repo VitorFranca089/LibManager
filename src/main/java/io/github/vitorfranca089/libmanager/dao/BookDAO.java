@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class BookDAO {
 
     public int addBook(Book book) {
-        String sql = "INSERT INTO books (name, author, year_pub, genre, is_available) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO books (title, author, year_pub, genre, is_available) VALUES (?,?,?,?,?)";
         try(Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
             stmt.setString(1, book.getTitle());
@@ -57,5 +57,23 @@ public class BookDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean updateBook(Book book) {
+        String sql = "UPDATE books SET title = ?, author = ?, year_pub = ?, genre = ? WHERE id = ?";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setInt(3, book.getYearPub());
+            stmt.setString(4, book.getGenre());
+            stmt.setInt(5, book.getId());
+
+            return (stmt.executeUpdate()) > 0;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

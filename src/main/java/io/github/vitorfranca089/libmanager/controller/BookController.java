@@ -51,6 +51,23 @@ public class BookController {
         System.out.println();
         if(foundBook != null){
             printBook(foundBook);
+            char op;
+            do{
+                System.out.println("= Edição de Livro =");
+                System.out.println("OBS: Deixe em branco o campo que não queira mudar");
+                String newTitle = InputUtils.getString("Digite o novo nome:");
+                String newAuthor = InputUtils.getString("Digite o novo nome do autor do livro:");
+                int newYearPub = InputUtils.getIntYear("Digite o novo ano de publicação do livro:");
+                String newGenre = InputUtils.getString("Digite o novo gênero do livro:");
+                op = InputUtils.getCharOptions("Deseja efetuar a alteração? (S/N)");
+
+                if(op == 'S')
+                    if(bookService.updateBook(foundBook, newTitle, newAuthor, newYearPub, newGenre))
+                        System.out.println("Livro alterado com sucesso!");
+                    else
+                        System.out.println("Erro na alteração.");
+            }while(!(op == 'S' || op == 'N'));
+            System.out.println();
         }else{
             System.out.println("Livro não cadastrado.");
             System.out.println();

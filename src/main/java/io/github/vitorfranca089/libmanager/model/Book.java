@@ -1,5 +1,7 @@
 package io.github.vitorfranca089.libmanager.model;
 
+import io.github.vitorfranca089.libmanager.dto.BookDTO;
+
 public class Book {
 
     private int id;
@@ -18,6 +20,15 @@ public class Book {
         this.yearPub = yearPub;
         this.genre = genre;
         this.isAvailable = isAvailable;
+    }
+
+    public Book(BookDTO bookDTO){
+        this.id = bookDTO.id();
+        this.title = bookDTO.title();
+        this.author = bookDTO.author();
+        this.yearPub = bookDTO.yearPub();
+        this.genre = bookDTO.genre();
+        this.isAvailable = bookDTO.isAvailable();
     }
 
     public int getId() {
