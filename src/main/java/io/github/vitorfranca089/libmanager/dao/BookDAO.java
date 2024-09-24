@@ -76,4 +76,18 @@ public class BookDAO {
         }
         return false;
     }
+
+    public boolean deleteBook(int id) {
+        String sql = "DELETE FROM books WHERE id = ?";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, id);
+
+            if(stmt.executeUpdate() == 1) return true;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

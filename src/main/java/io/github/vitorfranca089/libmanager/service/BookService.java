@@ -44,4 +44,7 @@ public class BookService {
         }
     }
 
+    public boolean deleteBook(int id) {
+        return bookDAO.deleteBook(id);
+    }
 }

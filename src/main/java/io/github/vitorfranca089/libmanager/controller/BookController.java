@@ -15,7 +15,7 @@ public class BookController {
             System.out.println("1 - Adicionar um livro.");
             System.out.println("2 - Editar um livro.");
             System.out.println("3 - Consulta de livros.");
-            System.out.println("4 - Remover um livro.");
+            System.out.println("4 - Deletar um livro.");
             System.out.println("0 - Voltar.");
             op = InputUtils.getInt();
             System.out.println();
@@ -23,6 +23,7 @@ public class BookController {
                 case 1 -> addBook();
                 case 2 -> updateBook();
                 case 3 -> queryBookMenu();
+                case 4 -> deleteBook();
             }
         }while(op != 0);
     }
@@ -97,6 +98,29 @@ public class BookController {
         if(foundBook != null){
             printBook(foundBook);
             String waitOp = InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+        }else{
+            System.out.println("Livro não encontrado.");
+            System.out.println();
+        }
+    }
+
+    private void deleteBook(){
+        System.out.println("===== LibManager - Deletar livro =====");
+        int bookId = InputUtils.getInt("Digite o ID do livro a ser deletado:");
+        BookDTO foundBook = bookService.findBookById(bookId);
+        System.out.println();
+        if(foundBook != null){
+            printBook(foundBook);
+            char op;
+            do{
+                op = InputUtils.getCharOptions("Deseja deletar esse livro (Essa ação não pode ser revertida)? (S/N)");
+                if(op == 'S')
+                    if(bookService.deleteBook(foundBook.id()))
+                        System.out.println("Livro deletado com sucesso.");
+                    else
+                        System.out.println("Erro na deleção do livro.");
+            }while(!(op == 'S' || op == 'N'));
+            System.out.println();
         }else{
             System.out.println("Livro não encontrado.");
             System.out.println();
