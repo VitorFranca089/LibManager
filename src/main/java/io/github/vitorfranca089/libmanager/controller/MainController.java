@@ -48,6 +48,7 @@ public class MainController {
             // TODO: add librarian features
             switch(op){
                 case 1 -> bookController.bookMenu();
+                case 2 -> userController.libUserMenu();
             }
             System.out.println();
         }while(op != 0);

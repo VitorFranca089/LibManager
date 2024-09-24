@@ -9,6 +9,34 @@ public class UserController {
 
     private final UserService userService = new UserService();
 
+    public void libUserMenu(){
+        int op;
+        do {
+            System.out.println("===== LibManager - Gerenciamento de usuários =====");
+            System.out.println("1 - Ver informações de usuário.");
+            System.out.println("2 - Cadastrar usuário.");
+            System.out.println("3 - Editar informações de usuário.");
+            System.out.println("0 - Sair.");
+            op = InputUtils.getInt();
+            System.out.println();
+            switch(op){
+                case 1 -> queryUserMenu();
+            }
+        }while(op != 0);
+    }
+
+    private void queryUserMenu() {
+        // TODO: add all query types of users
+        int op;
+        do{
+            System.out.println("===== Consulta de usuários =====");
+            System.out.println("1 - Consultar usuário por ID.");
+            System.out.println("0 - Voltar.");
+            op = InputUtils.getInt();
+            System.out.println();
+        }while(op != 0);
+    }
+
     public void singUp(){
         System.out.println("===== LibManager =====");
         String name = InputUtils.getStringNotBlank("Digite seu nome:");
