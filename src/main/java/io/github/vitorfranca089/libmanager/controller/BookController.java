@@ -14,15 +14,15 @@ public class BookController {
             System.out.println("===== LibManager - Livros =====");
             System.out.println("1 - Adicionar um livro.");
             System.out.println("2 - Editar um livro.");
-            System.out.println("3 - Consultar um livro.");
+            System.out.println("3 - Consulta de livros.");
             System.out.println("4 - Remover um livro.");
-            System.out.println("5 - Cadastrar usuário.");
-            System.out.println("0 - Sair.");
+            System.out.println("0 - Voltar.");
             op = InputUtils.getInt();
             System.out.println();
             switch(op){
                 case 1 -> addBook();
                 case 2 -> updateBook();
+                case 3 -> queryBookMenu();
             }
         }while(op != 0);
     }
@@ -70,6 +70,35 @@ public class BookController {
             System.out.println();
         }else{
             System.out.println("Livro não cadastrado.");
+            System.out.println();
+        }
+    }
+
+    private void queryBookMenu(){
+        // TODO: add all query types of books
+        int op;
+        do{
+            System.out.println("===== Consulta de livros =====");
+            System.out.println("1 - Consultar livro por ID.");
+            System.out.println("0 - Voltar.");
+            op = InputUtils.getInt();
+            System.out.println();
+            switch(op){
+                case 1 -> getBookById();
+            }
+        }while(op != 0);
+    }
+
+    private void getBookById(){
+        System.out.println("===== LibManager - Consultar livro =====");
+        int bookId = InputUtils.getInt("Digite o ID do livro a ser alterado:");
+        BookDTO foundBook = bookService.findBookById(bookId);
+        System.out.println();
+        if(foundBook != null){
+            printBook(foundBook);
+            String waitOp = InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+        }else{
+            System.out.println("Livro não encontrado.");
             System.out.println();
         }
     }
