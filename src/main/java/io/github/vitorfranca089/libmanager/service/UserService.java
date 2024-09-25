@@ -11,13 +11,8 @@ public class UserService {
     private final UserDAO userDAO = new UserDAO();
     private final AuthDAO authDAO = new AuthDAO();
 
-    public UserDTO singUp(String name, String password, String address, String phone, Role role){
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        user.setAddress(address);
-        user.setPhone(phone);
-        user.setRole(role);
+    public UserDTO singUp(String name, String password, String address, String phone){
+        User user = new User(name, password, address, phone, Role.COMMON);
         return userDAO.singUpUser(user);
     }
 
@@ -25,5 +20,7 @@ public class UserService {
         return authDAO.login(username, password);
     }
 
-
+    public UserDTO findUserById(int userId) {
+        return userDAO.findUserByID(userId);
+    }
 }

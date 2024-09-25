@@ -1,7 +1,6 @@
 package io.github.vitorfranca089.libmanager.controller;
 
 import io.github.vitorfranca089.libmanager.dto.UserDTO;
-import io.github.vitorfranca089.libmanager.model.enums.Role;
 import io.github.vitorfranca089.libmanager.service.UserService;
 import io.github.vitorfranca089.libmanager.util.InputUtils;
 
@@ -34,7 +33,33 @@ public class UserController {
             System.out.println("0 - Voltar.");
             op = InputUtils.getInt();
             System.out.println();
+            switch(op){
+                case 1 -> getUserById();
+            }
         }while(op != 0);
+    }
+
+    private void getUserById() {
+        System.out.println("===== LibManager - Consultar usuário =====");
+        int userId = InputUtils.getInt("Digite o ID do usuário:");
+        UserDTO foundUser = userService.findUserById(userId);
+        System.out.println();
+        if(foundUser != null){
+            printUser(foundUser);
+            String waitOp = InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+        }else{
+            System.out.println("Usuário não encontrado.");
+            System.out.println();
+        }
+    }
+
+    private void printUser(UserDTO userDTO) {
+        System.out.println("- Nome: " + userDTO.name());
+        System.out.println("- ID do usuário: " + userDTO.id());
+        System.out.println("- Nome de usuário: " + userDTO.username());
+        System.out.println("- Endereço: "  + userDTO.address());
+        System.out.println("- Telefone: " + userDTO.phone());
+        System.out.println();
     }
 
     public void singUp(){
@@ -43,7 +68,7 @@ public class UserController {
         String password = InputUtils.getStringNotBlank("Digite sua senha:");
         String address = InputUtils.getStringNotBlank("Digite seu endereço:");
         String phone = InputUtils.getStringNotBlank("Digite seu telefone");
-        UserDTO response = userService.singUp(name, password, address, phone, Role.COMMON);
+        UserDTO response = userService.singUp(name, password, address, phone);
         System.out.println();
         System.out.println("===== Usuário criado =====");
         System.out.println("ID: " + response.id());

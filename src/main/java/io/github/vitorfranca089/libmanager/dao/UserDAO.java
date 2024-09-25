@@ -74,4 +74,27 @@ public class UserDAO {
         return null;
     }
 
+    public UserDTO findUserByID(int id) {
+        String sql = "SELECT id, name, username, address, phone, role FROM users WHERE id = ?";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                return new UserDTO(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        Role.valueOf(rs.getString(6))
+                );
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
