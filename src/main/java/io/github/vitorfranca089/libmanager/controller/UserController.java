@@ -1,6 +1,8 @@
 package io.github.vitorfranca089.libmanager.controller;
 
+import io.github.vitorfranca089.libmanager.dto.BookDTO;
 import io.github.vitorfranca089.libmanager.dto.UserDTO;
+import io.github.vitorfranca089.libmanager.model.enums.Role;
 import io.github.vitorfranca089.libmanager.service.UserService;
 import io.github.vitorfranca089.libmanager.util.InputUtils;
 
@@ -19,12 +21,13 @@ public class UserController {
             op = InputUtils.getInt();
             System.out.println();
             switch(op){
-                case 1 -> queryUserMenu();
+                case 1 -> libQueryUserMenu();
+                case 2 -> libUserSingUp();
             }
         }while(op != 0);
     }
 
-    private void queryUserMenu() {
+    private void libQueryUserMenu() {
         // TODO: add all query types of users
         int op;
         do{
@@ -37,6 +40,22 @@ public class UserController {
                 case 1 -> getUserById();
             }
         }while(op != 0);
+    }
+
+    private void libUserSingUp() {
+        final String DEFAULT_PASS = "1234567890";
+        System.out.println("===== LibManager - Cadastro de Usuário =====");
+        String name = InputUtils.getStringNotBlank("Digite seu nome:");
+        String address = InputUtils.getStringNotBlank("Digite seu endereço:");
+        String phone = InputUtils.getStringNotBlank("Digite seu telefone:");
+        Role role = InputUtils.getCharOptions("Tipo de usuário (B/U):") == 'B' ? Role.LIBRARIAN : Role.COMMON;
+        UserDTO response = userService.singUp(name, DEFAULT_PASS, address, phone, role);
+        System.out.println();
+        System.out.println("===== Usuário criado =====");
+        System.out.println("ID: " + response.id());
+        System.out.println("Nome de usuário: " + response.username());
+        System.out.println("OBS: Altere a senha padrão " + DEFAULT_PASS + " na página do seu perfil.");
+        System.out.println();
     }
 
     private void getUserById() {
@@ -67,8 +86,8 @@ public class UserController {
         String name = InputUtils.getStringNotBlank("Digite seu nome:");
         String password = InputUtils.getStringNotBlank("Digite sua senha:");
         String address = InputUtils.getStringNotBlank("Digite seu endereço:");
-        String phone = InputUtils.getStringNotBlank("Digite seu telefone");
-        UserDTO response = userService.singUp(name, password, address, phone);
+        String phone = InputUtils.getStringNotBlank("Digite seu telefone:");
+        UserDTO response = userService.singUp(name, password, address, phone, Role.COMMON);
         System.out.println();
         System.out.println("===== Usuário criado =====");
         System.out.println("ID: " + response.id());
