@@ -1,5 +1,6 @@
 package io.github.vitorfranca089.libmanager.model;
 
+import io.github.vitorfranca089.libmanager.dto.UserDTO;
 import io.github.vitorfranca089.libmanager.model.enums.Role;
 
 public class User {
@@ -13,6 +14,15 @@ public class User {
     private Role role;
 
     public User() {
+    }
+
+    public User(UserDTO userDTO) {
+        this.id = userDTO.id();
+        this.name = userDTO.name();
+        this.username = userDTO.username();
+        this.address = userDTO.address();
+        this.phone = userDTO.phone();
+        this.role = userDTO.role();
     }
 
     public User(String name, String password, String address, String phone, Role role) {

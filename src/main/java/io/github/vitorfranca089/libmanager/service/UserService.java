@@ -5,11 +5,14 @@ import io.github.vitorfranca089.libmanager.dao.UserDAO;
 import io.github.vitorfranca089.libmanager.dto.UserDTO;
 import io.github.vitorfranca089.libmanager.model.User;
 import io.github.vitorfranca089.libmanager.model.enums.Role;
+import io.github.vitorfranca089.libmanager.util.UpdateUtils;
 
 public class UserService {
 
     private final UserDAO userDAO = new UserDAO();
     private final AuthDAO authDAO = new AuthDAO();
+
+    public static final String DEFAULT_PASS = "1234567890";
 
     public UserDTO singUp(String name, String password, String address, String phone, Role role){
         User user = new User(name, password, address, phone, role);
@@ -22,5 +25,13 @@ public class UserService {
 
     public UserDTO findUserById(int userId) {
         return userDAO.findUserByID(userId);
+    }
+
+    public boolean updateUser(UserDTO user, String newName, String newAddress, String newPhone) {
+        User userToUpdate = new User(user);
+        UpdateUtils.updateIfNotEmpty(newName, userToUpdate::setName);
+        UpdateUtils.updateIfNotEmpty(newAddress, userToUpdate::setAddress);
+        UpdateUtils.updateIfNotEmpty(newPhone, userToUpdate::setPhone);
+        return userDAO.updateUser(userToUpdate);
     }
 }
