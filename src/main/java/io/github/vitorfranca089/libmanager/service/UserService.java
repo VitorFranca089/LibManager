@@ -34,4 +34,8 @@ public class UserService {
         UpdateUtils.updateIfNotEmpty(newPhone, userToUpdate::setPhone);
         return userDAO.updateUser(userToUpdate);
     }
+
+    public boolean toDefaultPassword(int id) {
+        return userDAO.toDefaultPassword(id, DEFAULT_PASS);
+    }
 }

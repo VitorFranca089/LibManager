@@ -16,6 +16,7 @@ public class UserController {
             System.out.println("1 - Ver informações de usuário.");
             System.out.println("2 - Cadastrar usuário.");
             System.out.println("3 - Editar informações de usuário.");
+            System.out.println("4 - Tornar senha padrão.");
             System.out.println("0 - Sair.");
             op = InputUtils.getInt();
             System.out.println();
@@ -23,6 +24,7 @@ public class UserController {
                 case 1 -> libQueryUserMenu();
                 case 2 -> libUserSingUp();
                 case 3 -> libUpdateUser();
+                case 4 -> libToDefaultPasswordUser();
             }
         }while(op != 0);
     }
@@ -82,6 +84,25 @@ public class UserController {
             System.out.println();
         }else{
             System.out.println("Usuário não cadastrado.");
+            System.out.println();
+        }
+    }
+
+    private void libToDefaultPasswordUser() {
+        System.out.println("===== LibManager - Tornar senha padrão =====");
+        int userId = InputUtils.getInt("Digite o ID do usuário:");
+        UserDTO foundUser = userService.findUserById(userId);
+        if(foundUser != null){
+            printUser(foundUser);
+            char op = InputUtils.getCharOptions("Você deseja tornar a senha deste usuário para a senha padrão? (S/N)");
+            if(op == 'S')
+                if(userService.toDefaultPassword(foundUser.id()))
+                    System.out.println("Senha alterada com sucesso.");
+                else
+                    System.out.println("Erro na alteração.");
+            System.out.println();
+        }else{
+            System.out.println("Usuário não encontrado.");
             System.out.println();
         }
     }
