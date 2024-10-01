@@ -8,6 +8,7 @@ public class MainController {
 
     private final UserController userController = new UserController();
     private final BookController bookController = new BookController();
+    private final LoanController loanController = new LoanController();
 
     public void startMenu(){
         int op;
@@ -49,6 +50,7 @@ public class MainController {
             switch(op){
                 case 1 -> bookController.bookMenu();
                 case 2 -> userController.libUserMenu();
+                case 3 -> loanController.libLoanMenu();
             }
             System.out.println();
         }while(op != 0);
