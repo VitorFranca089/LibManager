@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class InputUtils {
 
-    private static Scanner in = new Scanner(System.in);
+    private final static Scanner in = new Scanner(System.in);
 
     public static String getStringNotBlank(String prompt){
         String response;

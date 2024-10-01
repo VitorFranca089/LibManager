@@ -4,7 +4,6 @@ import io.github.vitorfranca089.libmanager.config.DatabaseConfig;
 import io.github.vitorfranca089.libmanager.dto.UserDTO;
 import io.github.vitorfranca089.libmanager.model.User;
 import io.github.vitorfranca089.libmanager.model.enums.Role;
-import io.github.vitorfranca089.libmanager.util.CredencialUtils;
 
 import java.sql.*;
 
@@ -28,7 +27,7 @@ public class UserDAO {
 
             if (generatedKeys.next()) {
                 int userId = generatedKeys.getInt(1);
-                String username = CredencialUtils.makeUsername(user.getName(), user.getRole(), userId);
+                String username = makeUsername(user.getName(), user.getRole(), userId);
 
                 stmtUpdate.setString(1, username);
                 stmtUpdate.setInt(2, userId);
@@ -106,4 +105,11 @@ public class UserDAO {
         }
         return false;
     }
+
+    private String makeUsername(String name, Role role, int id){
+        String firstName = name.split(" ")[0];
+        String roleType = role.getRole().equals("librarian") ? "L" : "C";
+        return firstName + roleType + id;
+    }
+
 }

@@ -3,6 +3,7 @@ package io.github.vitorfranca089.libmanager.controller;
 import io.github.vitorfranca089.libmanager.dto.BookDTO;
 import io.github.vitorfranca089.libmanager.service.BookService;
 import io.github.vitorfranca089.libmanager.util.InputUtils;
+import io.github.vitorfranca089.libmanager.util.InterfaceUtils;
 
 public class BookController {
 
@@ -51,7 +52,7 @@ public class BookController {
         BookDTO foundBook = bookService.findBookById(bookId);
         System.out.println();
         if(foundBook != null){
-            printBook(foundBook);
+            InterfaceUtils.printBook(foundBook);
             char op;
             do{
                 System.out.println("= Edição de Livro =");
@@ -96,7 +97,7 @@ public class BookController {
         BookDTO foundBook = bookService.findBookById(bookId);
         System.out.println();
         if(foundBook != null){
-            printBook(foundBook);
+            InterfaceUtils.printBook(foundBook);
             String waitOp = InputUtils.getString("Digite alguma tecla para voltar ao menu...");
         }else{
             System.out.println("Livro não encontrado.");
@@ -110,7 +111,7 @@ public class BookController {
         BookDTO foundBook = bookService.findBookById(bookId);
         System.out.println();
         if(foundBook != null){
-            printBook(foundBook);
+            InterfaceUtils.printBook(foundBook);
             char op;
             do{
                 op = InputUtils.getCharOptions("Deseja deletar esse livro (Essa ação não pode ser revertida)? (S/N)");
@@ -125,16 +126,6 @@ public class BookController {
             System.out.println("Livro não encontrado.");
             System.out.println();
         }
-    }
-
-    private void printBook(BookDTO bookDTO){
-        System.out.println("- Livro: " + bookDTO.title());
-        System.out.println("- ID livro: " + bookDTO.id());
-        System.out.println("- Autor: " + bookDTO.author());
-        System.out.println("- Ano de publicação: "  + bookDTO.yearPub());
-        System.out.println("- Gênero: " + bookDTO.genre());
-        System.out.println("- Disponibilidade: " + (bookDTO.isAvailable() ? "Disponível" : "Emprestado"));
-        System.out.println();
     }
 
 }

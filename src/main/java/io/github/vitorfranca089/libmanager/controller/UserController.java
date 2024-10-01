@@ -4,6 +4,7 @@ import io.github.vitorfranca089.libmanager.dto.UserDTO;
 import io.github.vitorfranca089.libmanager.model.enums.Role;
 import io.github.vitorfranca089.libmanager.service.UserService;
 import io.github.vitorfranca089.libmanager.util.InputUtils;
+import io.github.vitorfranca089.libmanager.util.InterfaceUtils;
 
 public class UserController {
 
@@ -65,7 +66,7 @@ public class UserController {
         UserDTO foundUser = userService.findUserById(userId);
         System.out.println();
         if(foundUser != null){
-            printUser(foundUser);
+            InterfaceUtils.printUser(foundUser);
             char op;
             do{
                 System.out.println("= Edição de Usuário =");
@@ -93,7 +94,7 @@ public class UserController {
         int userId = InputUtils.getInt("Digite o ID do usuário:");
         UserDTO foundUser = userService.findUserById(userId);
         if(foundUser != null){
-            printUser(foundUser);
+            InterfaceUtils.printUser(foundUser);
             char op = InputUtils.getCharOptions("Você deseja tornar a senha deste usuário para a senha padrão? (S/N)");
             if(op == 'S')
                 if(userService.toDefaultPassword(foundUser.id()))
@@ -113,21 +114,12 @@ public class UserController {
         UserDTO foundUser = userService.findUserById(userId);
         System.out.println();
         if(foundUser != null){
-            printUser(foundUser);
-            String waitOp = InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+            InterfaceUtils.printUser(foundUser);
+            InputUtils.getString("Digite alguma tecla para voltar ao menu...");
         }else{
             System.out.println("Usuário não encontrado.");
             System.out.println();
         }
-    }
-
-    private void printUser(UserDTO userDTO) {
-        System.out.println("- Nome: " + userDTO.name());
-        System.out.println("- ID do usuário: " + userDTO.id());
-        System.out.println("- Nome de usuário: " + userDTO.username());
-        System.out.println("- Endereço: "  + userDTO.address());
-        System.out.println("- Telefone: " + userDTO.phone());
-        System.out.println();
     }
 
     public void singUp(){
