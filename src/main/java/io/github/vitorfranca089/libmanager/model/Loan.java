@@ -5,19 +5,27 @@ import java.time.LocalDateTime;
 public class Loan {
 
     private int id;
-    private Book id_book;
-    private User id_user;
-    private LocalDateTime loan_date;
-    private LocalDateTime return_date;
+    private Book book;
+    private User user;
+    private LocalDateTime loanDate;
+    private LocalDateTime returnDate;
 
     public Loan() {
     }
 
-    public Loan(Book id_book, User id_user, LocalDateTime loan_date, LocalDateTime return_date) {
-        this.id_book = id_book;
-        this.id_user = id_user;
-        this.loan_date = loan_date;
-        this.return_date = return_date;
+    public Loan(Book book, User user, LocalDateTime loanDate, LocalDateTime returnDate) {
+        this.book = book;
+        this.user = user;
+        this.loanDate = loanDate;
+        this.returnDate = returnDate;
+    }
+
+    public Loan(int id, Book book, User user, LocalDateTime loanDate, LocalDateTime returnDate) {
+        this.id = id;
+        this.book = book;
+        this.user = user;
+        this.loanDate = loanDate;
+        this.returnDate = returnDate;
     }
 
     public int getId() {
@@ -28,36 +36,36 @@ public class Loan {
         this.id = id;
     }
 
-    public Book getId_book() {
-        return id_book;
+    public Book getBook() {
+        return book;
     }
 
-    public void setId_book(Book id_book) {
-        this.id_book = id_book;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public User getId_user() {
-        return id_user;
+    public User getUser() {
+        return user;
     }
 
-    public void setId_user(User id_user) {
-        this.id_user = id_user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public LocalDateTime getLoan_date() {
-        return loan_date;
+    public LocalDateTime getLoanDate() {
+        return loanDate;
     }
 
-    public void setLoan_date(LocalDateTime loan_date) {
-        this.loan_date = loan_date;
+    public void setLoanDate(LocalDateTime loanDate) {
+        this.loanDate = loanDate;
     }
 
-    public LocalDateTime getReturn_date() {
-        return return_date;
+    public LocalDateTime getReturnDate() {
+        return returnDate;
     }
 
-    public void setReturn_date(LocalDateTime return_date) {
-        this.return_date = return_date;
+    public void setReturnDate(LocalDateTime returnDate) {
+        this.returnDate = returnDate;
     }
 
 }
