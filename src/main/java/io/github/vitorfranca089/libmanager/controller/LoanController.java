@@ -9,6 +9,8 @@ import io.github.vitorfranca089.libmanager.service.UserService;
 import io.github.vitorfranca089.libmanager.util.InputUtils;
 import io.github.vitorfranca089.libmanager.util.InterfaceUtils;
 
+import java.util.List;
+
 public class LoanController {
 
     private final LoanService loanService = new LoanService();
@@ -26,12 +28,13 @@ public class LoanController {
             op = InputUtils.getInt();
             System.out.println();
             switch(op){
-                case 1 -> libRegisterLoan();
+                case 1 -> libLoanRegister();
+                case 3 -> libLoanQuery();
             }
         }while(op != 0);
     }
 
-    private void libRegisterLoan() {
+    private void libLoanRegister() {
         System.out.println("===== LibManager - Fazer empréstimo =====");
         int userId = InputUtils.getInt("Digite o ID do usuário:");
         UserDTO foundUser = userService.findUserById(userId);
@@ -57,6 +60,22 @@ public class LoanController {
             System.out.println("Usuário não encontrado.");
             System.out.println();
         }
+    }
+
+    private void libLoanQuery() {
+        System.out.println("===== LibManager - Consulta de empréstimos =====");
+        int userId = InputUtils.getInt("Digite o ID do usuário:");
+        UserDTO foundUser = userService.findUserById(userId);
+        if(foundUser != null){
+            List<LoanDTO> userLoans = loanService.findLoansByUser(foundUser);
+            if(!(userLoans.isEmpty())){
+                System.out.println();
+                userLoans.forEach(InterfaceUtils::printLoan);
+                InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+            }else
+                System.out.println("O usuário não fez empréstimo de livros.");
+        }else
+            System.out.println("Usuário não encontrado.");
     }
 
 }

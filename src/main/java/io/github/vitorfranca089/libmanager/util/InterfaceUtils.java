@@ -31,7 +31,7 @@ public class InterfaceUtils {
 
     public static void printLoan(LoanDTO loan) {
         System.out.println("- ID empréstimo: " + loan.id());
-        System.out.println("- ID Usuário: " + loan.user().name());
+        System.out.println("- Livro: " + loan.book().title());
         System.out.println("- ID Livro: " + loan.book().id());
         System.out.println("- Data de empréstimo: " + loan.loanDate().format(formatter));
         System.out.println("- Data de devolução: " + loan.returnDate().format(formatter));

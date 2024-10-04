@@ -98,7 +98,7 @@ public class BookController {
         System.out.println();
         if(foundBook != null){
             InterfaceUtils.printBook(foundBook);
-            String waitOp = InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+            InputUtils.getString("Digite alguma tecla para voltar ao menu...");
         }else{
             System.out.println("Livro não encontrado.");
             System.out.println();

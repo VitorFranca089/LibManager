@@ -7,6 +7,8 @@ import io.github.vitorfranca089.libmanager.dto.UserDTO;
 import io.github.vitorfranca089.libmanager.model.Loan;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoanDAO {
 
@@ -38,6 +40,43 @@ public class LoanDAO {
                         loan.getReturnDate()
                 );
             }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<LoanDTO> findLoansByUser(UserDTO user) {
+        String sql = "SELECT * FROM loans INNER JOIN books ON books.id=loans.id_book WHERE loans.id_user = ? AND books.is_available = 0";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, user.id());
+
+            ResultSet rs = stmt.executeQuery();
+            List<LoanDTO> userLoans = new ArrayList<>();
+
+            if(rs != null){
+                while(rs.next()){
+                    LoanDTO loan = new LoanDTO(
+                            rs.getInt("id"),
+                            new BookDTO(
+                                    rs.getInt("id_book"),
+                                    rs.getString("title"),
+                                    rs.getString("author"),
+                                    rs.getInt("year_pub"),
+                                    rs.getString("genre"),
+                                    rs.getBoolean("is_available")
+                            ),
+                            user,
+                            rs.getTimestamp("loan_date").toLocalDateTime(),
+                            rs.getTimestamp("return_date").toLocalDateTime()
+                    );
+                    userLoans.add(loan);
+                }
+            }
+
+            return userLoans;
 
         }catch(SQLException e){
             e.printStackTrace();

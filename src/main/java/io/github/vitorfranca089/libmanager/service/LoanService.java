@@ -9,6 +9,7 @@ import io.github.vitorfranca089.libmanager.model.Loan;
 import io.github.vitorfranca089.libmanager.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class LoanService {
 
@@ -19,6 +20,10 @@ public class LoanService {
         Book book = new Book(bookDTO);
         Loan loan = new Loan(book, user, LocalDateTime.now(), LocalDateTime.now().plusWeeks(1).withHour(23).withMinute(59));
         return loanDAO.makeLoan(loan);
+    }
+
+    public List<LoanDTO> findLoansByUser(UserDTO user){
+        return loanDAO.findLoansByUser(user);
     }
 
 }
