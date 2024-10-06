@@ -107,8 +107,8 @@ public class UserDAO {
     }
 
     private String makeUsername(String name, Role role, int id){
-        String firstName = name.split(" ")[0];
-        String roleType = role.getRole().equals("librarian") ? "L" : "C";
+        String firstName = name.split(" ")[0].toLowerCase();
+        String roleType = role.equals(Role.LIBRARIAN) ? "B" : "U";
         return firstName + roleType + id;
     }
 
