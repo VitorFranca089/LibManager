@@ -34,7 +34,8 @@ public class InterfaceUtils {
         System.out.println("- Livro: " + loan.book().title());
         System.out.println("- ID Livro: " + loan.book().id());
         System.out.println("- Data de empréstimo: " + loan.loanDate().format(formatter));
-        System.out.println("- Data de devolução: " + loan.returnDate().format(formatter));
+        System.out.println("- Data prevista de devolução: " + loan.dueDate().format(formatter));
+        System.out.println("- Status: " + loan.loanStatus());
         System.out.println();
     }
 

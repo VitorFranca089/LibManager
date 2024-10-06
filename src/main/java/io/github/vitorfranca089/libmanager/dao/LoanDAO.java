@@ -5,15 +5,17 @@ import io.github.vitorfranca089.libmanager.dto.BookDTO;
 import io.github.vitorfranca089.libmanager.dto.LoanDTO;
 import io.github.vitorfranca089.libmanager.dto.UserDTO;
 import io.github.vitorfranca089.libmanager.model.Loan;
+import io.github.vitorfranca089.libmanager.model.enums.LoanStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LoanDAO {
 
     public LoanDTO makeLoan(Loan loan){
-        String sqlInsert = "INSERT INTO loans (id_book, id_user, loan_date, return_date) VALUES (?,?,?,?)";
+        String sqlInsert = "INSERT INTO loans (id_book, id_user, loan_date, due_date) VALUES (?,?,?,?)";
         String sqlUpdate = "UPDATE books SET is_available = 0 WHERE id = ?";
         try(Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert,  PreparedStatement.RETURN_GENERATED_KEYS);
@@ -21,7 +23,7 @@ public class LoanDAO {
             stmtInsert.setInt(1, loan.getBook().getId());
             stmtInsert.setInt(2, loan.getUser().getId());
             stmtInsert.setTimestamp(3, Timestamp.valueOf(loan.getLoanDate()));
-            stmtInsert.setTimestamp(4, Timestamp.valueOf(loan.getReturnDate()));
+            stmtInsert.setTimestamp(4, Timestamp.valueOf(loan.getDueDate()));
             stmtInsert.executeUpdate();
 
             stmtUpdate.setInt(1, loan.getBook().getId());
@@ -37,7 +39,9 @@ public class LoanDAO {
                         bookDTO,
                         userDTO,
                         loan.getLoanDate(),
-                        loan.getReturnDate()
+                        loan.getDueDate(),
+                        loan.getReturnDate(),
+                        loan.getLoanStatus()
                 );
             }
 
@@ -58,6 +62,7 @@ public class LoanDAO {
 
             if(rs != null){
                 while(rs.next()){
+                    Optional<Timestamp> returnDate = Optional.ofNullable(rs.getTimestamp("return_date"));
                     LoanDTO loan = new LoanDTO(
                             rs.getInt("id"),
                             new BookDTO(
@@ -70,7 +75,9 @@ public class LoanDAO {
                             ),
                             user,
                             rs.getTimestamp("loan_date").toLocalDateTime(),
-                            rs.getTimestamp("return_date").toLocalDateTime()
+                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            returnDate.map(Timestamp::toLocalDateTime).orElse(null),
+                            LoanStatus.valueOf(rs.getString("loan_status"))
                     );
                     userLoans.add(loan);
                 }

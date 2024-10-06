@@ -55,11 +55,9 @@ public class LoanController {
                 }
             }else
                 System.out.println("Livro já está emprestado.");
-            System.out.println();
-        }else{
+        }else
             System.out.println("Usuário não encontrado.");
-            System.out.println();
-        }
+        System.out.println();
     }
 
     private void libLoanQuery() {
@@ -76,6 +74,7 @@ public class LoanController {
                 System.out.println("O usuário não fez empréstimo de livros.");
         }else
             System.out.println("Usuário não encontrado.");
+        System.out.println();
     }
 
 }
