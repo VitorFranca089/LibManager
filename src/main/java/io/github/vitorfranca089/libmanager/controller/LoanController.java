@@ -10,6 +10,7 @@ import io.github.vitorfranca089.libmanager.util.InputUtils;
 import io.github.vitorfranca089.libmanager.util.InterfaceUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LoanController {
 
@@ -29,6 +30,7 @@ public class LoanController {
             System.out.println();
             switch(op){
                 case 1 -> libLoanRegister();
+                case 2 -> libLoanReturn();
                 case 3 -> libLoanQuery();
             }
         }while(op != 0);
@@ -55,6 +57,35 @@ public class LoanController {
                 }
             }else
                 System.out.println("Livro já está emprestado.");
+        }else
+            System.out.println("Usuário não encontrado.");
+        System.out.println();
+    }
+
+    private void libLoanReturn() {
+        System.out.println("===== LibManager - Devolução de livro =====");
+        int userId = InputUtils.getInt("Digite o ID do usuário:");
+        UserDTO foundUser = userService.findUserById(userId);
+        if(foundUser != null){
+            List<LoanDTO> userLoans = loanService.findLoansByUser(foundUser);
+            if(!(userLoans.isEmpty())){
+                System.out.println();
+                userLoans.forEach(InterfaceUtils::printLoan);
+
+                int loanToReturn = InputUtils.getInt("Digite o ID do empréstimo do livro a ser devolvido:");
+                Optional<LoanDTO> loanToReturnOpt = userLoans.stream()
+                        .filter(loan -> loan.id() == loanToReturn)
+                        .findFirst();
+
+                if (loanToReturnOpt.isPresent()) {
+                    if (loanService.returnLoan(loanToReturnOpt.get()))
+                        System.out.println("Livro devolvido com sucesso.");
+                    else
+                        System.out.println("Erro ao devolver livro.");
+                }else
+                    System.out.println("Livro não está emprestado pelo usuário.");
+            }else
+                System.out.println("O usuário não fez empréstimo de livros.");
         }else
             System.out.println("Usuário não encontrado.");
         System.out.println();

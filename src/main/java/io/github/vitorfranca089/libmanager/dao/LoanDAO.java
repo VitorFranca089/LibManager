@@ -8,6 +8,7 @@ import io.github.vitorfranca089.libmanager.model.Loan;
 import io.github.vitorfranca089.libmanager.model.enums.LoanStatus;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,8 +52,28 @@ public class LoanDAO {
         return null;
     }
 
+    public boolean returnLoan(LoanDTO loan) {
+        String sqlUpdateLoan = "UPDATE loans SET loan_status = 'RETURNED', return_date = ? where id = ?";
+        String sqlUpdateBook = "UPDATE books SET is_available = 1 WHERE id = ?";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmtBook = conn.prepareStatement(sqlUpdateBook);
+            PreparedStatement stmtLoan = conn.prepareStatement(sqlUpdateLoan)){
+            stmtLoan.setInt(2, loan.id());
+            stmtLoan.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            stmtBook.setInt(1, loan.book().id());
+
+            if(stmtLoan.executeUpdate() == 1 && stmtBook.executeUpdate() == 1) return true;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public List<LoanDTO> findLoansByUser(UserDTO user) {
-        String sql = "SELECT * FROM loans INNER JOIN books ON books.id=loans.id_book WHERE loans.id_user = ? AND books.is_available = 0";
+        String sql = "SELECT * FROM loans INNER JOIN books ON books.id=loans.id_book " +
+                "WHERE loans.id_user = ? AND loans.loan_status = 'BORROWED' OR loans.loan_status = 'OVERDUE' " +
+                "ORDER BY loans.id ASC";
         try(Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, user.id());

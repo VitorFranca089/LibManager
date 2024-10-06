@@ -26,4 +26,7 @@ public class LoanService {
         return loanDAO.findLoansByUser(user);
     }
 
+    public boolean returnLoan(LoanDTO loanToReturn) {
+        return loanDAO.returnLoan(loanToReturn);
+    }
 }
