@@ -35,7 +35,22 @@ public class UserService {
         return userDAO.updateUser(userToUpdate);
     }
 
+    public boolean updateUser(UserDTO user, String newName, String newPassword, String newAddress, String newPhone) {
+        User userToUpdate = new User(user);
+        UpdateUtils.updateIfNotEmpty(newName, userToUpdate::setName);
+        UpdateUtils.updateIfNotEmpty(newPassword, userToUpdate::setPassword);
+        UpdateUtils.updateIfNotEmpty(newAddress, userToUpdate::setAddress);
+        UpdateUtils.updateIfNotEmpty(newPhone, userToUpdate::setPhone);
+        if(userToUpdate.getPassword() == null)
+            return userDAO.updateUser(userToUpdate);
+        return userDAO.updateUserWithPass(userToUpdate);
+    }
+
     public boolean toDefaultPassword(int id) {
         return userDAO.toDefaultPassword(id, DEFAULT_PASS);
+    }
+
+    public boolean verifyPassword(String oldPass, int userId) {
+        return userDAO.verifyPassword(oldPass, userId);
     }
 }

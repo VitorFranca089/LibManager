@@ -91,6 +91,24 @@ public class UserDAO {
         return false;
     }
 
+    public boolean updateUserWithPass(User user) {
+        String sql = "UPDATE users SET name = ?, password = ?, address = ?, phone = ? WHERE id = ?";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getAddress());
+            stmt.setString(4, user.getPhone());
+            stmt.setInt(5, user.getId());
+
+            return (stmt.executeUpdate()) > 0;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean toDefaultPassword(int id, String defaultPass) {
         String sql = "UPDATE users SET password = ? WHERE id = ?";
         try(Connection conn = DatabaseConfig.getConnection();
@@ -99,6 +117,24 @@ public class UserDAO {
             stmt.setInt(2, id);
 
             return (stmt.executeUpdate()) > 0;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean verifyPassword(String oldPass, int userId) {
+        String sql = "SELECT password FROM users WHERE id = ?";
+        try(Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getString(1).equals(oldPass);
+            }
 
         }catch(SQLException e){
             e.printStackTrace();

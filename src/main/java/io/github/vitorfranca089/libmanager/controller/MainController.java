@@ -9,6 +9,7 @@ public class MainController {
     private final UserController userController = new UserController();
     private final BookController bookController = new BookController();
     private final LoanController loanController = new LoanController();
+    private final ProfileController profileController = new ProfileController();
 
     public void startMenu(){
         int op;
@@ -51,6 +52,7 @@ public class MainController {
                 case 1 -> bookController.bookMenu();
                 case 2 -> userController.libUserMenu();
                 case 3 -> loanController.libLoanMenu();
+                case 4 -> profileController.profileMenu(user);
             }
             System.out.println();
         }while(op != 0);
@@ -64,7 +66,11 @@ public class MainController {
             System.out.println("2 - Perfil.");
             System.out.println("0 - Logout.");
             op = InputUtils.getInt();
+            System.out.println();
             // TODO: add commonUser features
+            switch(op){
+                case 2 -> profileController.profileMenu(user);
+            }
             System.out.println();
         }while(op != 0);
     }
