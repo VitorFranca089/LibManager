@@ -69,6 +69,7 @@ public class MainController {
             System.out.println();
             // TODO: add commonUser features
             switch(op){
+                case 1 -> loanController.userLoanMenu(user);
                 case 2 -> profileController.profileMenu(user);
             }
             System.out.println();

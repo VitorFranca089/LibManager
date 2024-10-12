@@ -44,19 +44,22 @@ public class LoanController {
             InterfaceUtils.printBasicUser(foundUser);
             int bookId = InputUtils.getInt("Digite o ID do livro a ser emprestado:");
             BookDTO foundBook = bookService.findBookById(bookId);
-            if(foundBook.isAvailable()){
-                InterfaceUtils.printBook(foundBook);
-                char op = InputUtils.getCharOptions("Deseja realizar o empréstimo do livro? (S/N)");
-                if(op == 'S'){
-                    LoanDTO loan = loanService.makeLoan(foundUser, foundBook);
-                    if(loan != null) {
-                        InterfaceUtils.printLoan(loan);
-                        InputUtils.getString("Digite alguma tecla para voltar ao menu...");
-                    }else
-                        System.out.println("Erro no empréstimo do livro.");
-                }
+            if(foundBook != null){
+                if(foundBook.isAvailable()){
+                    InterfaceUtils.printBook(foundBook);
+                    char op = InputUtils.getCharOptions("Deseja realizar o empréstimo do livro? (S/N)");
+                    if(op == 'S'){
+                        LoanDTO loan = loanService.makeLoan(foundUser, foundBook);
+                        if(loan != null) {
+                            InterfaceUtils.printLoan(loan);
+                            InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+                        }else
+                            System.out.println("Erro no empréstimo do livro.");
+                    }
+                }else
+                    System.out.println("Livro já está emprestado.");
             }else
-                System.out.println("Livro já está emprestado.");
+                System.out.println("Livro não cadastrado.");
         }else
             System.out.println("Usuário não encontrado.");
         System.out.println();
@@ -96,16 +99,30 @@ public class LoanController {
         int userId = InputUtils.getInt("Digite o ID do usuário:");
         UserDTO foundUser = userService.findUserById(userId);
         if(foundUser != null){
-            List<LoanDTO> userLoans = loanService.findLoansByUser(foundUser);
-            if(!(userLoans.isEmpty())){
-                System.out.println();
-                userLoans.forEach(InterfaceUtils::printLoan);
-                InputUtils.getString("Digite alguma tecla para voltar ao menu...");
-            }else
-                System.out.println("O usuário não fez empréstimo de livros.");
+            printUserLoans(foundUser);
         }else
             System.out.println("Usuário não encontrado.");
         System.out.println();
+    }
+
+    public void userLoanMenu(UserDTO user) {
+        System.out.println("===== LibManager - Empréstimos =====");
+        System.out.println("1 - Consultar empréstimos.");
+        System.out.println("0 - Voltar.");
+        if(InputUtils.getInt() == 1) {
+            printUserLoans(user);
+        }
+        System.out.println();
+    }
+
+    private void printUserLoans(UserDTO user){
+        List<LoanDTO> userLoans = loanService.findLoansByUser(user);
+        if(!(userLoans.isEmpty())){
+            System.out.println();
+            userLoans.forEach(InterfaceUtils::printLoan);
+            InputUtils.getString("Digite alguma tecla para voltar ao menu...");
+        }else
+            System.out.println("O usuário não fez empréstimo de livros.");
     }
 
 }
