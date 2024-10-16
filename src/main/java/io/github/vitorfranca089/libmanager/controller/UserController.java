@@ -31,7 +31,6 @@ public class UserController {
     }
 
     private void libQueryUserMenu() {
-        // TODO: add all query types of users
         int op;
         do{
             System.out.println("===== Consulta de usuários =====");

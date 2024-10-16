@@ -47,7 +47,6 @@ public class MainController {
             System.out.println("0 - Logout.");
             op = InputUtils.getInt();
             System.out.println();
-            // TODO: add librarian features
             switch(op){
                 case 1 -> bookController.bookMenu();
                 case 2 -> userController.libUserMenu();
@@ -67,7 +66,6 @@ public class MainController {
             System.out.println("0 - Logout.");
             op = InputUtils.getInt();
             System.out.println();
-            // TODO: add commonUser features
             switch(op){
                 case 1 -> loanController.userLoanMenu(user);
                 case 2 -> profileController.profileMenu(user);

@@ -77,7 +77,6 @@ public class BookController {
     }
 
     private void queryBookMenu(){
-        // TODO: add all query types of books
         int op;
         do{
             System.out.println("===== Consulta de livros =====");
