@@ -36,13 +36,27 @@
 
 ### Pré-requisitos
 
-- **Java 17+**
-- **MySQL**
+- **Java 21+**
 - **Maven**
+- **MySQL** (rodando localmente **ou** via Docker — recomendado)
 
 ### Configurando o Banco de Dados
 
-Antes de executar o Flyway para configurar o banco de dados, você precisa garantir que o banco de dados chamado `libmanager` está criado no MySQL. Para fazer isso:
+O projeto usa Flyway para aplicar as migrações automaticamente na primeira execução, então só é preciso garantir que exista um banco de dados chamado `libmanager` acessível.
+
+**Opção A — via Docker (recomendado, mais rápido):**
+
+```bash
+docker run -d --name libmanager-mysql \
+  -e MYSQL_ROOT_PASSWORD=libmanager \
+  -e MYSQL_DATABASE=libmanager \
+  -p 3306:3306 \
+  mysql:8.3
+```
+
+Esse comando já sobe o MySQL e cria o banco `libmanager` automaticamente. Nas próximas vezes, basta `docker start libmanager-mysql`.
+
+**Opção B — MySQL instalado localmente:**
 
 1. Acesse o MySQL no terminal:
     ```bash
@@ -54,15 +68,43 @@ Antes de executar o Flyway para configurar o banco de dados, você precisa garan
     CREATE DATABASE libmanager;
     ```
 
-3. Agora você pode executar o Flyway que irá aplicar as migrações automaticamente ao banco de dados `libmanager`.
+### Variáveis de Ambiente
+
+A aplicação lê os dados de conexão do banco via variáveis de ambiente:
+
+| Variável      | Exemplo (usando a Opção A acima)       |
+|---------------|-----------------------------------------|
+| `DB_URL`      | `jdbc:mysql://localhost:3306/libmanager` |
+| `DB_USERNAME` | `root`                                   |
+| `DB_PASSWORD` | `libmanager`                             |
+
+Ajuste os valores caso esteja usando outro usuário/senha/host.
 
 ### Executando o Projeto
 
 1. Clone este repositório:
     ```bash
     git clone https://github.com/VitorFranca089/LibManager.git
+    cd LibManager
     ```
 
-2. Abra na sua IDE.
+2. Rode o script incluso, que compila o projeto e já executa com as variáveis de ambiente padrão (as mesmas da tabela acima):
+    ```bash
+    ./run.sh
+    ```
 
-3. Execute o projeto.
+   Isso vai aplicar as migrações do Flyway automaticamente e abrir o menu interativo no terminal.
+
+   Para usar outras credenciais de banco, basta sobrescrever as variáveis antes de rodar:
+    ```bash
+    DB_URL=jdbc:mysql://localhost:3306/libmanager DB_USERNAME=root DB_PASSWORD=outrasenha ./run.sh
+    ```
+
+3. Alternativamente, abra o projeto na sua IDE (configure as variáveis de ambiente na Run Configuration) e execute a classe `Main`.
+
+### Login padrão
+
+A migração inicial já cadastra um usuário bibliotecário para o primeiro acesso:
+
+- **Usuário:** `admin`
+- **Senha:** `123`
